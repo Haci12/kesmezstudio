@@ -1,42 +1,34 @@
-const EMAIL = "info@kesmezstudio.de"; // später durch deine echte Adresse ersetzen
+import Link from "next/link";
+import { packages } from "../lib/packages";
 
-const pakete = [
+const EMAIL = "info@kesmezstudio.de"; // später durch deine echte Adresse ersetzen
+const schritte = [
   {
-    name: "Start",
-    lead: "Webseiten für Praxen",
-    punkte: ["Leistungen, Vita, Kontakt", "Anmeldeformular für Erstanfragen", "Impressum und Datenschutz"],
-    preis: "ab 900 €",
-    wartung: "Wartung ab 20 € im Monat",
+    titel: "Erstgespräch",
+    text: "Wir sprechen kostenlos und unverbindlich über Ihre Praxis, Ihre Wünsche und Ihr Budget. Gemeinsam entscheiden wir, welches Paket zu Ihnen passt, und legen Gestaltung, Inhalte und Aufbau Ihrer Seite fest.",
   },
   {
-    name: "Termin",
-    lead: "Plus Online-Terminbuchung",
-    punkte: ["Buchung mit freien Zeiten", "Bestätigung und Erinnerung per Mail", "Absagen und Umbuchen"],
-    preis: "ab 1.500 €",
-    wartung: "Wartung ab 40 € im Monat",
-    dark: true,
+    titel: "Umsetzung und Abnahme",
+    text: "Ich baue Ihre Webseite und zeige Ihnen früh einen Entwurf. Sie geben Rückmeldung, wir feilen nach, und erst wenn Sie zufrieden sind, geht die Seite online.",
   },
   {
-    name: "Praxis-Plus",
-    lead: "Plus Terminhistorie und Kontakte",
-    punkte: ["Termin- und Kontaktdatenbank", "Export", "Löschkonzept"],
-    preis: "ab 3.500 €",
-    wartung: "Wartung ab 80 € im Monat",
+    titel: "Betreuung",
+    text: "Auch nach dem Start bleibe ich Ihre feste Ansprechperson. Auf Wunsch übernehme ich die laufende Pflege: Aktualisierungen, Datensicherung und kleine Änderungen.",
   },
 ];
-
 export default function Home() {
   return (
     <>
       <header className="wrap nav">
-        <a href="#" className="logo">
+        <Link href="/" className="logo">
           kesmez<span> studio</span>
           <i>.</i>
-        </a>
+        </Link>
         <nav aria-label="Hauptnavigation">
-          <a href="#pakete">Pakete</a>
-          <a href="#ueber-mich">Über mich</a>
-          <a href="#kontakt" className="pill dark">Erstgespräch</a>
+          <Link href="#pakete">Pakete</Link>
+          <Link href="#ablauf">Ablauf</Link>
+          <Link href="#ueber-mich">Über mich</Link>
+          <Link href="/terminbuchung/" className="pill dark">Erstgespräch</Link>
         </nav>
       </header>
 
@@ -46,31 +38,24 @@ export default function Home() {
             <p className="eyebrow">Webseiten für Praxen und mehr</p>
             <h1>Technik verstehen. Menschen erreichen.</h1>
             <p className="lead">
-              Kesmez Studio baut moderne Webseiten mit Terminbuchung. Schnell, klar gestaltet und mit
+              Kesmez Studio baut moderne Webseiten mit Online-Buchung. Schnell, klar gestaltet und mit
               sorgfältigem Umgang mit Daten.
             </p>
             <div className="actions">
-              <a href="#kontakt" className="pill accent">Kostenloses Erstgespräch</a>
-              <a href="#pakete" className="pill outline">Pakete ansehen</a>
+              <Link href="/terminbuchung/" className="pill accent">
+                Kostenloses Erstgespräch
+              </Link>
+              <Link href="#pakete" className="pill outline">Pakete ansehen</Link>
             </div>
           </div>
 
-          <div className="booking" aria-label="Beispielansicht einer Terminbuchung">
-            <p className="sample">Beispielansicht</p>
-            <h2>Termin buchen</h2>
-            <p className="muted-light">Erstgespräch, 50 Minuten</p>
-            <div className="days">
-              <span>Mo 12</span>
-              <span className="on">Di 13</span>
-              <span>Mi 14</span>
-            </div>
-            <div className="slots">
-              <span>09:00</span>
-              <span className="sel">10:30</span>
-              <span>14:00</span>
-              <span>15:30</span>
-            </div>
-            <span className="confirm">Termin bestätigen</span>
+          <div className="booking" aria-label="Informationen zum Erstgespräch">
+            <p className="sample">Persönlich &amp; unverbindlich</p>
+            <h2>45 Minuten</h2>
+            <p className="muted-light">
+              Wählen Sie direkt auf der Website eine passende Buchungszeit.
+            </p>
+            <Link className="booking-cta" href="/terminbuchung/">Termin auswählen</Link>
           </div>
         </section>
 
@@ -81,37 +66,73 @@ export default function Home() {
           </div>
         </section>
 
+
         <section id="pakete" className="wrap section">
           <h2 className="h2">Drei Pakete. Ein Prinzip.</h2>
           <p className="lead narrow">
             Jedes Paket baut auf dem vorherigen auf. Sie starten klein und wachsen, wenn Ihre Praxis es
             braucht.
           </p>
-          <div className="cards">
-            {pakete.map((p) => (
-              <article key={p.name} className={p.dark ? "card dark" : "card"}>
-                <h3>{p.name}</h3>
-                <p className="card-lead">{p.lead}</p>
-                <ul>
-                  {p.punkte.map((t) => (
-                    <li key={t}>{t}</li>
+          <div className="cards package-cards">
+            {packages.map((studioPackage) => (
+              <article
+                key={studioPackage.slug}
+                className={
+                  studioPackage.highlighted
+                    ? "card package-card dark"
+                    : "card package-card"
+                }
+              >
+                <div className="package-card-heading">
+                  <h3>{studioPackage.name}</h3>
+                  {studioPackage.badge && (
+                    <span className="package-badge">{studioPackage.badge}</span>
+                  )}
+                </div>
+                <p className="card-lead">{studioPackage.subtitle}</p>
+                <ul className="package-feature-list">
+                  {studioPackage.features.map((feature) => (
+                    <li key={feature}>{feature}</li>
                   ))}
                 </ul>
-                <p className="preis">{p.preis}</p>
-                <p className="wartung">{p.wartung}</p>
+                <div className="package-card-footer">
+                  <p className="preis">
+                    ab {studioPackage.priceFrom.toLocaleString("de-DE")} €
+                  </p>
+                  <p className="package-price-note">{studioPackage.priceNote}</p>
+                  <p className="wartung">{studioPackage.maintenance}</p>
+                  <Link className="pill accent package-card-cta" href="/terminbuchung/">
+                    Erstgespräch buchen
+                  </Link>
+                  <Link className="package-details-link" href={`/pakete/${studioPackage.slug}/`}>
+                    Details ansehen <span aria-hidden="true">→</span>
+                  </Link>
+                </div>
               </article>
             ))}
           </div>
         </section>
-
+        
+        <section id="ablauf" className="wrap section">
+          <h2 className="h2">In drei Schritten zu Ihrer Webseite.</h2>
+          <ol className="steps">
+            {schritte.map((s, i) => (
+              <li key={s.titel} className="step">
+                <span className="step-nr">{i + 1}</span>
+                <h3>{s.titel}</h3>
+                <p>{s.text}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
         <section id="ueber-mich" className="wrap about">
-          <img className="foto" src="/images/hacer.jpeg" alt="Hacer Kesmez" />
+          <img className="foto" src="/images/hacer.png" alt="Hacer Kesmez" />
           <div>
             <h2 className="h2 small">Hallo, ich bin Hacer.</h2>
             <p className="lead narrow">
                Seit 2019 arbeite ich im Bereich Data Engineering und entwickle technische Lösungen,
   Datenmodelle und digitale Prozesse. Dieses Wissen bringe ich in Ihre Praxis-Webseite
-  ein: klar aufgebaut, zuverlässig und mit einer Terminbuchung, die nur die Daten
+               ein: klar aufgebaut, zuverlässig und mit einer Online-Buchung, die nur die Daten
   verarbeitet, die wirklich nötig sind. Bei mir haben Sie eine feste Ansprechperson. 
               
             </p>
@@ -122,11 +143,13 @@ export default function Home() {
       <footer id="kontakt" className="contact">
         <div className="wrap">
           <h2>Lassen Sie uns sprechen.</h2>
-          <a href={`mailto:${EMAIL}`} className="pill accent">Erstgespräch vereinbaren</a>
+          <Link href="/terminbuchung/" className="pill accent">
+            Erstgespräch vereinbaren
+          </Link>
           <div className="legal">
             <span>© Kesmez Studio</span>
-            <a href="/impressum/">Impressum</a>
-            <a href="/datenschutz/">Datenschutz</a>
+            <Link href="/impressum/">Impressum</Link>
+            <Link href="/datenschutz/">Datenschutz</Link>
             <a href={`mailto:${EMAIL}`}>{EMAIL}</a>
           </div>
         </div>

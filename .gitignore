@@ -6,3 +6,7 @@ dist/
 *.log
 .env*
 !.env.example
+/calendar-service-account.json
+/calendar-config.php
+/calendar-booking.lock
+/private/calendar-config.php

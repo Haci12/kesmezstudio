@@ -9,7 +9,7 @@ const body = Inter({ subsets: ["latin"], weight: ["400", "500"], variable: "--fo
 export const metadata = {
   title: "Kesmez Studio – Webseiten für Praxen",
   description:
-    "Kesmez Studio baut moderne Webseiten mit Terminbuchung für Praxen. Schnell, klar gestaltet und mit sorgfältigem Umgang mit Daten.",
+    "Kesmez Studio baut moderne Webseiten mit Online-Buchung für Praxen. Schnell, klar gestaltet und mit sorgfältigem Umgang mit Daten.",
 };
 
 export default function RootLayout({ children }) {
